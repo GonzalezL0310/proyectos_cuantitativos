@@ -6,7 +6,7 @@ de calcular métricas técnicas y características (features).
 """
 
 import pandas as pd
-import numpy as np # Importado para el bloque de prueba
+import numpy as np
 from typing import Optional
 # ¡DEPENDENCIA DE CONFIG ELIMINADA!
 
@@ -21,6 +21,19 @@ def procesar_datos_financieros(
 
     Esta función ahora recibe los períodos de ventana como argumentos,
     haciéndola flexible y reutilizable.
+
+    Args:
+        datos_crudos (pd.DataFrame): El DataFrame de yfinance con datos OHLCV.
+        sma_corta (int, opcional): El período de ventana para la media móvil corta.
+                                   Por defecto es 50.
+        sma_larga (int, opcional): El período de ventana para la media móvil larga.
+                                   Por defecto es 200.
+        vol_periodo (int, opcional): El período de ventana para la volatilidad histórica.
+                                     Por defecto es 30.
+
+    Returns:
+        Optional[pd.DataFrame]: Un DataFrame de pandas con las nuevas columnas
+                                de métricas, o None si el procesamiento falla.
     """
     if datos_crudos is None or datos_crudos.empty:
         print("Error: No se proporcionaron datos crudos para procesar.")
@@ -38,7 +51,6 @@ def procesar_datos_financieros(
     df['retornos_diarios'] = df['Close'].pct_change()
 
     # 3. Calcular Medias Móviles Simples (SMA)
-    # Usamos los ARGUMENTOS de la función, no constantes globales
     col_sma_corta = f'SMA_{sma_corta}'
     col_sma_larga = f'SMA_{sma_larga}'
 
@@ -46,7 +58,6 @@ def procesar_datos_financieros(
     df[col_sma_larga] = df['Close'].rolling(window=sma_larga).mean()
 
     # 4. Calcular Volatilidad Histórica (Rodante)
-    # Usamos el ARGUMENTO vol_periodo
     col_volatilidad = f'Volatilidad_{vol_periodo}d'
     df[col_volatilidad] = df['retornos_diarios'].rolling(window=vol_periodo).std()
 

@@ -19,8 +19,23 @@ def plot_metricas(
     """
     Crea un gráfico del precio de cierre y las medias móviles (SMA).
 
-    Esta función ahora es "tonta": grafica exactamente
-    los nombres de columna que se le pasan como argumentos.
+    Guarda el gráfico resultante como un archivo .png. Esta función
+    es flexible y grafica los nombres de columna que recibe.
+
+    Args:
+        datos (pd.DataFrame): El DataFrame procesado que contiene las
+                              columnas a graficar.
+        ticker (str): El símbolo del activo (usado para títulos y
+                      nombres de archivo).
+        col_precio (str): El nombre exacto de la columna del precio
+                          (ej. 'Close').
+        col_sma_corta (str): El nombre exacto de la columna de la SMA corta
+                             (ej. 'SMA_50').
+        col_sma_larga (str): El nombre exacto de la columna de la SMA larga
+                             (ej. 'SMA_200').
+
+    Returns:
+        None. La función guarda un archivo .png en el disco.
     """
     if datos is None or datos.empty:
         print("Error: No se proporcionaron datos para graficar.")
@@ -28,7 +43,7 @@ def plot_metricas(
 
     print("Iniciando la generación del gráfico...")
 
-    # --- Tarea 4: Validación de Columnas ---
+    # --- Validación de Columnas ---
     columnas_requeridas = [col_precio, col_sma_corta, col_sma_larga]
     columnas_faltantes = [col for col in columnas_requeridas if col not in datos.columns]
 
@@ -42,7 +57,7 @@ def plot_metricas(
     try:
         plt.figure(figsize=(14, 7))
 
-        # --- Tarea 4: Usar argumentos para graficar ---
+        # --- Usar argumentos para graficar ---
         plt.plot(datos.index, datos[col_precio], label='Precio de Cierre', color='blue', alpha=0.7)
         plt.plot(datos.index, datos[col_sma_corta], label=col_sma_corta, color='orange', linestyle='--')
         plt.plot(datos.index, datos[col_sma_larga], label=col_sma_larga, color='red', linestyle='--')
