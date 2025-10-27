@@ -8,13 +8,13 @@ descargar datos crudos.
 import yfinance as yf
 import pandas as pd
 from typing import Optional
-# Importamos las constantes desde nuestro archivo de configuración
-from config import TICKER_SIMBOLO, PERIODO_DATOS
-
+# ¡DEPENDENCIA DE CONFIG ELIMINADA!
 
 def descargar_datos_historicos(ticker: str, periodo: str) -> Optional[pd.DataFrame]:
     """
     Descarga datos históricos OHLCV para un símbolo y período dados.
+    Esta función es ahora "pura": no depende de ninguna
+    configuración global.
     """
     print(f"Iniciando descarga de datos para {ticker} (período: {periodo})...")
     try:
@@ -36,15 +36,20 @@ def descargar_datos_historicos(ticker: str, periodo: str) -> Optional[pd.DataFra
         print(f"Ocurrió un error inesperado durante la descarga: {e}")
         return None
 
-
-# --- Bloque de prueba (Opcional) ---
+# --- Bloque de prueba (Refactorizado) ---
 if __name__ == "__main__":
     """
     Este bloque permite probar este módulo de forma independiente.
     Ej: 'python data_acquisition.py'
     """
     print("--- Probando el módulo de adquisición de forma aislada ---")
-    datos_prueba = descargar_datos_historicos(TICKER_SIMBOLO, PERIODO_DATOS)
+
+    # Constantes locales solo para esta prueba
+    TICKER_PRUEBA = "AAPL"
+    PERIODO_PRUEBA = "1y"
+
+    datos_prueba = descargar_datos_historicos(TICKER_PRUEBA, PERIODO_PRUEBA)
+
     if datos_prueba is not None:
-        print("Prueba exitosa. Primeras 3 filas:")
+        print(f"Prueba exitosa para {TICKER_PRUEBA}. Primeras 3 filas:")
         print(datos_prueba.head(3))

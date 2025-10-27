@@ -1,5 +1,3 @@
-
-
 Proyecto 1: Pipeline de Procesamiento de Datos Financieros
 
 El script automatiza el proceso de descargar datos históricos de un activo financiero, procesarlos para calcular métricas técnicas clave y generar salidas listas para el análisis (un archivo CSV y un gráfico).
@@ -35,6 +33,7 @@ El script automatiza el proceso de descargar datos históricos de un activo fina
 El proyecto está organizado en módulos de "Separación de Responsabilidades" (Separation of Concerns) para un código más limpio y escalable.
 Bash
 
+```
 mi_proyecto_quant/
 ├── config.py             # Almacena constantes y parámetros (ticker, SMA, etc.)
 ├── data_acquisition.py   # Módulo para descargar datos de yfinance
@@ -43,6 +42,7 @@ mi_proyecto_quant/
 ├── visualizer.py         # Módulo para crear y guardar el gráfico con Matplotlib
 ├── main.py               # Orquestador principal que ejecuta el pipeline
 └── requirements.txt      # Dependencias del proyecto
+```
 
 🔧 Instalación
 
