@@ -47,40 +47,47 @@ mi_proyecto_quant/
 🔧 Instalación
 
 Para ejecutar este proyecto, necesitarás Python 3.8+ y las siguientes librerías:
+Clona este repositorio:
 
-    Clona este repositorio:
-    Bash
-
+```
+Bash
 git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
 cd TU_REPOSITORIO
+```
 
 (Recomendado) Crea un entorno virtual:
+```
 Bash
 
 python -m venv venv
 source venv/bin/activate   # En Linux/macOS
 .\venv\Scripts\activate    # En Windows
+```
 
 Instala las dependencias: (Puedes crear un archivo requirements.txt con el siguiente contenido)
-
+```
 requirements.txt
 Plaintext
 
 pandas
 yfinance
 matplotlib
+```
 
 Luego instala con:
-Bash
 
-    pip install -r requirements.txt
+```
+Bash 
+pip install -r requirements.txt
+```
 
 🏃‍♂️ Cómo Usarlo
 
 La ejecución se realiza a través del script main.py.
+```
 Bash
-
 python main.py
+```
 
 El script ejecutará el pipeline completo y verás los mensajes de estado en la consola:
 
@@ -100,7 +107,10 @@ Cada módulo tiene una responsabilidad única.
 
 config.py
 
-Funciona como el "panel de control" del proyecto. Almacena todas las constantes globales para evitar "números mágicos" en el código.
+```
+Funciona como el "panel de control" del proyecto. 
+Almacena todas las constantes globales para evitar "números mágicos" en el código.
+```
 
 data_acquisition.py
 
@@ -113,19 +123,21 @@ data_acquisition.py
     Devuelve un DataFrame de pandas crudo con OHLCV.
 
 data_processing.py
+```
+Contiene la función procesar_datos_financieros(datos_crudos).
 
-    Contiene la función procesar_datos_financieros(datos_crudos).
+Toma el DataFrame crudo y realiza los cálculos vectorizados de pandas.
 
-    Toma el DataFrame crudo y realiza los cálculos vectorizados de pandas.
+df['retornos_diarios'] = df['Close'].pct_change()
 
-    df['retornos_diarios'] = df['Close'].pct_change()
+df[col_sma] = df['Close'].rolling(window=...).mean()
 
-    df[col_sma] = df['Close'].rolling(window=...).mean()
+df[col_vol] = df['retornos_diarios'].rolling(window=...).std()
 
-    df[col_vol] = df['retornos_diarios'].rolling(window=...).std()
-
-    Nota sobre los NaN: Es normal que las primeras N filas de las métricas sean NaN (o <null> en el CSV). Esto es matemáticamente necesario, ya que un cálculo rodante (ej. SMA 50) necesita 49 días de datos previos para calcular su primer valor.
-
+Nota sobre los NaN: Es normal que las primeras N filas de las métricas sean NaN (o <null> en el CSV).
+Esto es matemáticamente necesario, ya que un cálculo rodante (ej. SMA 50) 
+necesita 49 días de datos previos para calcular su primer valor.
+```
 data_storage.py
 
     Contiene la función guardar_datos_csv(datos, ticker).
